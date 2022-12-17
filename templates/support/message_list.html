@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for mes in message %}
+<div>{{ mes.subject }}</div>
+<div>{{ mes.text }}</div>
+<img src="{{ mes.image.url }}" width="50px" height="50px">
+{% endfor %}
+</body>
+</html>
