@@ -29,3 +29,9 @@ class Message(models.Model):
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
+
+
+class UserMessage(models.Model):
+    text = models.TextField()
+    subject = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='messages_list')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
