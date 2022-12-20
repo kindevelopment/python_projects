@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from .models import Category, Message, UserMessage
-from .forms import MessageForm, LoginForm
+from .forms import MessageForm, LoginForm, MessListForm
 
 
 def index(request):
@@ -16,7 +16,6 @@ def index(request):
                 form = form.save(commit=False)
                 form.user = request.user
                 form.save()
-            print()
         else:
             print('Error')
             return redirect('/')
@@ -36,11 +35,18 @@ def list_message(request):
 
 
 def user_message(request, pk):
-    # subject = Message.objects.get(id=pk, user=request.user)
-    # messages = subject.messages_list.all()
-
+    if request.method == 'POST':
+        form = MessListForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                form = form.save(commit=False)
+                form.user = request.user
+                form.save()
+        else:
+            return redirect('/')
+    form = MessListForm()
     messages = UserMessage.objects.filter(subject_id=pk, subject__user=request.user)
-    return render(request, 'support/user_message.html', {'messages': messages})
+    return render(request, 'support/user_message.html', {'messages': messages, 'form': form})
 
 # - Реализовать форму для отправки сообщения в указанный subject.
 # - Реализовать вывод сообщения от модератора.
