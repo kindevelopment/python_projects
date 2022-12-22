@@ -35,3 +35,10 @@ class UserMessage(models.Model):
     text = models.TextField()
     subject = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='messages_list')
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.get_username()
+
+    class Meta:
+        verbose_name = 'Сообщение от пользователя'
+        verbose_name_plural = 'Сообщения от пользователей'

@@ -25,7 +25,7 @@ def index(request):
 
 class SignUp(CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy('/')
+    success_url = reverse_lazy('main')
     template_name = 'registration/signup.html'
 
 
@@ -40,6 +40,7 @@ def user_message(request, pk):
         if form.is_valid():
             if request.user.is_authenticated:
                 form = form.save(commit=False)
+                form.subject_id = pk
                 form.user = request.user
                 form.save()
         else:
